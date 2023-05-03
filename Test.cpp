@@ -3,9 +3,12 @@
 #include "doctest.h"
 #include "sources/Fraction.hpp"
 #include "doctest.h"
+#include <sstream>
+#include <limits>
+#include <vector>
 using namespace ariel;
 
-TEST_CASE("Test ")
+TEST_CASE("Test constructor and division by zero")
 {
     CHECK(Fraction(5,10)==0.5);
     CHECK(Fraction(5,-10)==-0.5);
@@ -20,7 +23,7 @@ TEST_CASE("Test ")
 
 }
 
-TEST_CASE("Test ")
+TEST_CASE("Test operator prefix and posfix(++,--)")
 {
     Fraction f1 = Fraction(3, 1);
     Fraction f2 = Fraction(3, 6);
@@ -35,7 +38,7 @@ TEST_CASE("Test ")
     CHECK(f1-- == Fraction(2,1));
 
 }
-TEST_CASE("Test ")
+TEST_CASE("Test operator (==)")
 {   
     CHECK(Fraction(9,16)+Fraction(19,80)==Fraction(4,5));
     CHECK(float(9/16)+Fraction(19,80)==Fraction(4,5));
@@ -54,7 +57,7 @@ TEST_CASE("Test ")
     CHECK(Fraction(3,20)/float(3/16)==Fraction(4,5));
 }
 
-TEST_CASE("Test ")
+TEST_CASE("Test operators (<,>,<=,>=) ")
 {
     CHECK(Fraction(2,16)<0.5);
     CHECK(Fraction(4,16)<=0.25);
@@ -75,7 +78,19 @@ TEST_CASE("Test ")
     CHECK(Fraction(4,16)==Fraction(8,32));
 }
 
+TEST_CASE("Input stream operator (>>)") {
+        std::stringstream st("5 8");
+        Fraction frac;
+        st >> frac;
+        CHECK_EQ(frac, Fraction{5, 8});
+}
 
+TEST_CASE("Output stream operatr(<<)") {
+        std::stringstream st;
+        Fraction frac{3, 4};
+        st << frac;
+        CHECK(st.str() == "3/4");
+}
 
 
 // TEST_CASE("Test 1: Fraction constructor throws exception when denominator is zero")
